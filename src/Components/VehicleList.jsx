@@ -86,9 +86,17 @@ export default function VehiclesList({ vehicles }) {
     let newFilteredVehicles;
 
    if (vehicle === 'All' && event === 'Any') {
-    newFilteredVehicles = filteredVehicles.filter((mode) => {
-      return mode.size >= size && mode.smoking === smoking
-    })
+      if (smoking) {
+        newFilteredVehicles = vehicles.filter((mode) => {
+          return mode.size >= size && mode.smoking === smoking
+        })
+
+      } else {
+        newFilteredVehicles = vehicles.filter((mode) => {
+          return mode.size >= size
+        })
+      }
+   
   } else if (vehicle === 'All') {
       newFilteredVehicles = vehicles.filter((mode) => {
         return mode.size >= size && mode.smoking === smoking && mode.event_type.includes(event) 
@@ -114,7 +122,7 @@ export default function VehiclesList({ vehicles }) {
             <b>Vehicle Type</b>
             <select value={vehicle} onChange={handleVehicleChange}>
             {
-                vehicleTypes.map((vehicle) => <option value={vehicle}>{vehicle}</option>)
+                vehicleTypes.map((vehicle) => <option value={vehicle} key={vehicle}>{vehicle}</option>)
             }
             </select>
           </label>
@@ -122,18 +130,18 @@ export default function VehiclesList({ vehicles }) {
             <b>Event Type</b>
             <select value={event} onChange={handleEventChange}>
             {
-                eventTypes.map((event) => <option value={event}>{event}</option>)
+                eventTypes.map((event, i) => <option key={event} value={event}>{event}</option>)
             }
             </select>
           </label>
           <label>
             <b>Seats</b>
-            <input type="number" value={size} style={{width: "60px"}}onChange={handleSizeChange} />
+            <input type="number" value={size} style={{width: "60px"}} onChange={handleSizeChange} />
             <input type="submit" />
           </label>
           <label>
             <b>Smoking</b>
-            <input type="checkbox" checked={smoking} onClick={handleSmokingChange} />
+            <input type="checkbox" checked={smoking} onChange={handleSmokingChange} />
           </label>
           <button type="button" onClick={handleReset}>
             <b>Reset</b>
