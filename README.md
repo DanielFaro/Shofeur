@@ -6,10 +6,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+In a terminal, navigate to /backend and 
+
+### `node index.js` to connect to mongodb
+If you wish to make more fake data, simply uncomment the code in backend/index.js and rerun `node index.js`
+
+In a terminal, navigate to testapp/master folder
+
 ### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
