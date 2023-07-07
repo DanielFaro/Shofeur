@@ -9,61 +9,109 @@ const FilterStyles = styled.form`
   height: 80px;
   background-color: white;
   display: flex;
-  border: 1px dashed blue;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
   margin-bottom: 30px;
+  font-size: 2rem;
+  margin: 20px 0px;
+  select, input {
+      margin-left: 10px;
+      font-size: 2rem;
+      border: 1px solid black;
+      padding: 5px;
+    }
+
+  button {
+    padding: 5px;
+    font-size: 2rem;
+  }
+
+
+  .dropdowns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  
+   
+  }
 
 `
 const VehiclesListStyles = styled.div`
+  top: 80px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
   grid-gap: 60px;
-  top: 80px;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-content: space-evenly;
+  align-items: center;
+  margin: 50px 0px;
 `;
 
-
-
-
+// VehiclesList displays available rentals per filter state
 export default function VehiclesList({ vehicles }) {
-  const [filteredVehicles, setFilteredVehicles] = useState(null);
-  const [vehicle, setVehicle] = useState('Car');
-  const [event, setEvent] = useState('Event');
+  const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
+  const [vehicle, setVehicle] = useState('All');
+  const [event, setEvent] = useState('Any');
   const [size, setSize] = useState(1);
   const [smoking, setSmoking] = useState(false);
-  const handleVehicleChange = (e) => {setVehicle(e.target.value); filterByVehicle(e.target.value)};
-  const handleEventChange = (e) => { setEvent(e.target.value); filterByEvent() }
-  const handleSizeChange = (e) => setSize(e.target.value)
-  const handleSize = (e) => {e.preventDefault()
-    console.log("## handleSubmit clicked ==");
-    filterBySize();
+  const handleVehicleChange = (e) => {setVehicle(e.target.value); filterRentals(e.target.value, event, size, smoking)};
+  const handleEventChange = (e) => { setEvent(e.target.value); filterRentals(vehicle, e.target.value, size, smoking ) }
+  const handleSizeChange = (e) => { setSize(e.target.value);}
+  const handleSize = (e) => {
+    e.preventDefault();
+    filterRentals(vehicle, event, size, smoking);
   };
   const handleSmokingChange = () => { 
     setSmoking(!smoking);
-    filterBySmoking()
+    filterRentals(vehicle, event, size, !smoking);
   };
-  const handleReset = () => { setFilteredVehicles(vehicles); 
-  setEvent('Event'); setVehicle('Car'); setSize(1); setSmoking(false)};
+  const handleReset = () => { 
+    setFilteredVehicles(vehicles); 
+  setEvent('Any'); setVehicle('All'); setSize(1); setSmoking(false)
+};
 
+// on initial load filteredVehicles is set to the complete available rental list i.e. vehicles
   useEffect(() => {
     setFilteredVehicles(vehicles);
   },[vehicles]);
 
-// filtering might be hard to complets,
-// for event type only include events which exist in vehicles
-  const filterBySize = () => setFilteredVehicles(filteredVehicles.filter((vehicle) => vehicle.size >= size))
-  const filterByVehicle = (type) => {console.log("#filterByVehicle", vehicle); setFilteredVehicles(filteredVehicles.filter((item) => item.vehicle_type === type))}
-  const filterByEvent = () => {setFilteredVehicles(filteredVehicles.filter((vehicle) => vehicle.event_type.includes(event)))}
-  const filterBySmoking = () => {setFilteredVehicles(filteredVehicles.filter((vehicle) => vehicle.smoking === smoking))}
 
-  console.log("filtered vehicles =", filteredVehicles, vehicles);
+  // filterFentals filters vehicles list based on user entry kept in component state above
+  const filterRentals = (vehicle, event, size, smoking) => {
+    let newFilteredVehicles;
 
+   if (vehicle === 'All' && event === 'Any') {
+    newFilteredVehicles = filteredVehicles.filter((mode) => {
+      return mode.size >= size && mode.smoking === smoking
+    })
+  } else if (vehicle === 'All') {
+      newFilteredVehicles = vehicles.filter((mode) => {
+        return mode.size >= size && mode.smoking === smoking && mode.event_type.includes(event) 
+      })
+   } else if (event === 'Any') {
+      newFilteredVehicles = vehicles.filter((mode) => {
+        return mode.size >= size && mode.smoking === smoking && mode.vehicle_type === vehicle
+      })
+    } else {
+      newFilteredVehicles = vehicles.filter((mode) => {
+        return mode.size >= size && mode.smoking === smoking && mode.vehicle_type === vehicle && mode.event_type.includes(event)
+      })
+    }
+    setFilteredVehicles(newFilteredVehicles);
+  }
 
   return (
     <>
-      <h1>Rentals</h1>
+      <header>Vehicles</header>
       <FilterStyles onSubmit={handleSize}>
         <div className="dropdowns">
           <label>
-            Vehicle Type
+            <b>Vehicle Type</b>
             <select value={vehicle} onChange={handleVehicleChange}>
             {
                 vehicleTypes.map((vehicle) => <option value={vehicle}>{vehicle}</option>)
@@ -71,7 +119,7 @@ export default function VehiclesList({ vehicles }) {
             </select>
           </label>
           <label>
-            Event Type
+            <b>Event Type</b>
             <select value={event} onChange={handleEventChange}>
             {
                 eventTypes.map((event) => <option value={event}>{event}</option>)
@@ -79,16 +127,16 @@ export default function VehiclesList({ vehicles }) {
             </select>
           </label>
           <label>
-            Seats
-            <input type="number" value={size} onChange={handleSizeChange} />
+            <b>Seats</b>
+            <input type="number" value={size} style={{width: "60px"}}onChange={handleSizeChange} />
             <input type="submit" />
           </label>
           <label>
-            Smoking
-            <input type="checkbox" value={smoking} onClick={handleSmokingChange} />
+            <b>Smoking</b>
+            <input type="checkbox" checked={smoking} onClick={handleSmokingChange} />
           </label>
           <button type="button" onClick={handleReset}>
-            Reset Filters
+            <b>Reset</b>
           </button>
         </div>
       </FilterStyles>

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
-import { vehicleTypes } from "./types";
-import { eventTypes } from "./types";
+// import { vehicleTypes } from "./types";
+// import { eventTypes } from "./types";
 
 const MONGODB_URI =
   "mongodb+srv://danielnfaro:Ak6hAWHNbh9A4Y46@vehicles.oyvpcx2.mongodb.net/?retryWrites=true&w=majority";
@@ -14,11 +14,9 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:8080/", {
 mongoose.connection
   .once("open", () => {
     console.log("Connected to MongoLab instance.");
-    const db = mongoose.connection.db.collection("test.vehicles");
-    console.log("## db in mongoose connection = ", db);
+    // const db = mongoose.connection.db.collection("test.vehicles");
   })
   .on("error", (error) => console.log("Error connecting to MongoLab:", error));
-// (err) => (err ? console.error(err) : console.log("Connected to database"))
 
 // Schema for Vehicles in App
 let currentDate = new Date().toJSON().slice(0, 10);
@@ -71,7 +69,6 @@ const VehicleSchema = new mongoose.Schema({
 });
 
 const Vehicle = mongoose.model("vehicles", VehicleSchema);
-console.log("## Vehicle in backend ==", Vehicle);
 Vehicle.createIndexes();
 
 // let seedData = [];
@@ -87,7 +84,6 @@ Vehicle.createIndexes();
 //   let uniqueRandomEvents = randomEvents.filter(
 //     (val, idx, arr) => arr.indexOf(val) === idx
 //   );
-//   console.log("unique random events ==", uniqueRandomEvents);
 //   const getRandomSize = () => Math.floor(Math.random() * (21 - 2) + 2);
 //   const randomVehicleIndex = Math.floor(Math.random() * vehicleTypes.length);
 //   const vehicleName = `${faker.vehicle.manufacturer()} ${faker.vehicle.type()}`;

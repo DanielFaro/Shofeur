@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-const HeaderStyles = styled.header`
+const NavStyles= styled.nav`
   .bar {
     color: white;
     background: rgba(2, 2, 2, 0.75);
     width: 100%;
+    height: 100px;
     padding: 0 20px;
     position: fixed;
     top: 0;
@@ -16,29 +17,25 @@ const HeaderStyles = styled.header`
   }
   button {
    height: 30px;
+   margin-right: 20px;
+   color: white;
+   background: #20556f;
 
     &:hover {
       cursor: pointer;
     }
   }
-
-  
-
-  /* .sub-bar {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    border-bottom: 1px solid var(--black, black);
-  } */
 `;
 
 const SUMMARY = "SUMMARY";
 const EVENTS = "EVENTS";
 const VEHICLES = "VEHICLES";
-const DESTINATIONS = "DESTINATIONS";
+const ATTRACTIONS = "ATTRACTIONS";
 
-export default function Header({onClick}) {
+// Nav bar which is fixed at page top and provides links to page sections
+export default function Nav({onClick}) {
   const generateLinks = () => {
-    const links = [SUMMARY, EVENTS, VEHICLES, DESTINATIONS];
+    const links = [SUMMARY, EVENTS, VEHICLES, ATTRACTIONS];
     return links.map((linkName, i) => {
       return (
         <button  onClick={() => onClick(linkName)} key={linkName}>
@@ -49,13 +46,13 @@ export default function Header({onClick}) {
   };
   
   return (
-    <HeaderStyles>
+    <NavStyles>
       <div className="bar">
-        <h2>DopeCars</h2>
+        <h2>LuxuryRentals</h2>
         <div>
-        {generateLinks()}
+          {generateLinks()}
         </div>
       </div>
-    </HeaderStyles>
+    </NavStyles>
   );
 }

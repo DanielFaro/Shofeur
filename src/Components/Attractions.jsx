@@ -1,21 +1,27 @@
 import styled from 'styled-components';
 import React from 'react';
+import AttractionsSummary from './AttractionsSummary';
 
 const Destinationstyles = styled.section`
-   display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 60px;
-    margin-bottom: 40px;
-
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 60px;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-content: space-evenly;
+  align-items: center;
+  margin-bottom: 40px;
   div {
-    background: blue;
-    border: 1px solid var(--offWhite);
+    background: #ffc000;
+    border: 1px solid black;
     box-shadow: var(--bs);
     position: relative;
     display: flex;
     transform: scale(1);
     transition: transform 800ms;
     flex-direction: column;
+    width: 350px;
     &:hover {
       transform: scale(1.08);
       transition: transform 800ms;
@@ -39,10 +45,12 @@ const destinations = [
   {name: "Venice Beach", img: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/124000/124468-Venice.jpg?impolicy=fcrop&w=1040&h=580&q=mediumHigh"}
 ];
 
+// Events displays a grid of event types that can be used for Luxury Rentals
 export default function Events() {
   return (
     <>
-      <h1>Popular Attractions</h1>
+      <header>Popular Attractions</header>
+      <AttractionsSummary />
       <Destinationstyles>
         {destinations?.map(destination => (
               <div key={destination.name}>

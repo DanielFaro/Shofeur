@@ -5,27 +5,27 @@ const SummaryStyles = styled.div`
   background: white;
   border: 1px solid var(--offWhite);
   box-shadow: var(--bs);
+  padding: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 40px;
-  title {
-    color: black
-  }
+  margin-top: 100px;
+
   p {
     line-height: 2;
     font-weight: 300;
     flex-grow: 1;
     padding: 0 3rem;
     font-size: 1.5rem;
+    text-align: left;
   }
 `;
 
+// Summary at top of page
 export default function Summary() {
   return (
     <SummaryStyles>
-     
-        <h1>Summary</h1>
+        <header>Why Luxury Rentals?</header>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
           ut labore et dolore magna aliqua. Ultricies integer quis auctor elit sed. Id interdum velit 
           laoreet id donec. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus. Amet 

@@ -1,5 +1,6 @@
-export const vehicleTypes = ["Van", "Limousine", "Bus", "SUV", "Car"];
+export const vehicleTypes = ["Van", "Limousine", "Bus", "SUV", "Car", "All"];
 export const eventTypes = [
+  "Any",
   "Wedding",
   "Birthday",
   "Bachelor Party",
